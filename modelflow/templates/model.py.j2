@@ -1,0 +1,52 @@
+
+from transformers import AutoTokenizer, AutoModelForCausalLM, TextStreamer
+from huggingface_hub import login
+from dotenv import load_dotenv
+import torch
+import os
+
+class Model:
+    def __init__(self, MODEL_NAME):
+        # Load Hugging Face key
+        load_dotenv()
+        key = os.getenv('HF_KEY')
+        if key is None:
+            raise ValueError("HF_KEY not found. Set it in .env file.")
+        login(key)
+
+        self.MODEL_NAME = MODEL_NAME
+
+        # Load tokenizer
+        try:
+            self.tokenizer = AutoTokenizer.from_pretrained(
+                MODEL_NAME,
+                trust_remote_code=True
+            )
+        except Exception as e:
+            raise ValueError(f"Failed to load tokenizer: {e}")
+        self.tokenizer.pad_token = self.tokenizer.eos_token
+
+        # Load model
+        try:
+            self.model = AutoModelForCausalLM.from_pretrained(
+                MODEL_NAME,
+                torch_dtype=torch.float16,
+                device_map="auto",
+                trust_remote_code=True,
+            )
+        except Exception as e:
+            raise ValueError(f"Failed to load model: {e}")
+
+        # Set device
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.model.to(self.device)
+
+    def generate(self, message):
+        inputs = self.tokenizer.apply_chat_template(message, tokenize=False, add_generation_prompt=True)
+        self.Streamer = TextStreamer(self.tokenizer)
+        self.model_input = self.tokenizer(inputs, return_tensors="pt", padding=True).to(self.device)  # Move inputs to model device
+        output = self.model.generate(**self.model_input, max_new_tokens=512, streamer=self.Streamer)  # Reduced max_new_tokens
+        
+        return self.tokenizer.decode(output[0])
+    
+

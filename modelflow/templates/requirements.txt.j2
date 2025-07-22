@@ -1,0 +1,13 @@
+transformers
+huggingface_hub
+python-dotenv
+torch
+fastapi
+uvicorn
+
+# Add any additional dependencies below
+{% if extra_dependencies %}
+{% for dep in extra_dependencies %}
+{{ dep }}
+{% endfor %}
+{% endif %} 

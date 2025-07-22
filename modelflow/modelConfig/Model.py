@@ -9,8 +9,10 @@ class Model:
         self.model_logs  = self.GetModelConfig()
         
         self.SetModelConfig()
-        self.PrintConfigLogs()
-        self.model_list_support()
+        # self.PrintConfigLogs()
+        self.model_data()
+        
+        
 
     # Request huggingface endpoint to get model config
     def GetModelConfig(self):
@@ -71,7 +73,11 @@ class Model:
                 self.architectures = [self.model_logs["config"]["architectures"]]
             
             
+        if self.model_logs.get("usedStorage"):
 
+            self.model_size = self.model_logs["usedStorage"]
+        else:
+            self.model_size = -1
    
 
             
@@ -79,7 +85,7 @@ class Model:
 
     # Print logs info
     def PrintConfigLogs(self):
-        print(f"MODEL_NAME: {self.model_name} \nTAGS_LIST: {self.tags_list} \nPIPELINE_TAGS: {self.pipeline_tags} \nLIBRARY_NAME: {self.library_name} \nAUTOMODEL_TYPE : {self.auto_model} \nPROCESSOR : {self.processor} \nARCHITECTURE : {self.architectures[0]}")
+        print(f"MODEL_NAME: {self.model_name} \nTAGS_LIST: {self.tags_list} \nPIPELINE_TAGS: {self.pipeline_tags} \nLIBRARY_NAME: {self.library_name} \nAUTOMODEL_TYPE : {self.auto_model} \nPROCESSOR : {self.processor} \nARCHITECTURE : {self.architectures[0]} \nSIZE : {self.model_size/1024} KB/ {self.model_size/1073741824} GB")
 
     
     def model_list_support(self):
@@ -106,5 +112,19 @@ class Model:
 
             print(f"Exception call on model_list_support func- {e}")
 
+    def model_data(self):
+        model_config ={
+            "model_name": self.model_name,
+            "model_library": self.library_name,
+            "tag_list": self.tags_list,
+            "pipeline_tag": self.pipeline_tags,
+            "auto_model": self.auto_model,
+            "processor": self.processor,
+            "model_size": self.model_size
+        }
+        return model_config
 
-Model("tencent/Hunyuan-A13B-Instruct-GPTQ-Int4")
+        
+
+
+Model("parler-tts/parler-tts-mini-multilingual-v1.1")

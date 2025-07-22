@@ -1,0 +1,5 @@
+[project]
+name = "modelflow"
+version = "0.1.0"
+description = "A cool Python package"
+authors = [{ name="Maharshi Patel", email="maharshi7178@gmail.com" }] 

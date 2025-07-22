@@ -1,1 +1,7 @@
 /myenv
+/modelflow/myenv
+/build
+/dist
+/modelflow.egg-info
+/modelflow/__pycache__
+/modelflow/modelConfig/__pycache__

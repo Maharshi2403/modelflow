@@ -1,0 +1,17 @@
+from fastapi import FastAPI
+from Model import Model
+
+app = FastAPI()
+
+# Load model and tokenizer
+
+@app.get("/")
+def res():
+    return "GET: SUCCESSFUL"
+
+@app.post("/predict")
+def predict(text: str):
+    model = Model("{{model_name}}")
+    outputs = model.generate(text)
+    # Add post-processing as needed
+    return {"result": outputs} 

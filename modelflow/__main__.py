@@ -32,7 +32,7 @@ def main():
         context = {
             "model_name": args.modelid,
             "model_data": model_config,
-            
+            "project_name": args.output_dir,
             
             # Add more context fields as needed
         }
@@ -47,6 +47,8 @@ def main():
         render_template("Dockerfile.j2", context, os.path.join(output_dir, "Dockerfile"))
         render_template("dockerignore.j2", context, os.path.join(output_dir, ".dockerignore"))
         render_template("model_log.j2", context, os.path.join(output_dir, "model_log"))
+        render_template(".env.j2", context, os.path.join(output_dir, ".env"))
+        
 
         print(f"Generated model skeleton in: {output_dir}")
     else:

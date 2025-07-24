@@ -4,8 +4,8 @@ setup(
     name="modelflow",
     version="0.1.0",
     description="Auto-generate HuggingFace model skeletons with deployment configs",
-    author="Your Name",
-    author_email="your.email@example.com",
+    author="Maharshi Patel",
+    author_email="maharshi7178@gmail.com",
     packages=find_packages(),
     include_package_data=True,
     install_requires=[

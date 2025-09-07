@@ -48,6 +48,8 @@ def main():
         render_template("dockerignore.j2", context, os.path.join(output_dir, ".dockerignore"))
         render_template("model_log.j2", context, os.path.join(output_dir, "model_log"))
         render_template(".env.j2", context, os.path.join(output_dir, ".env"))
+        render_template(".gitignore.j2", context, os.path.join(output_dir, ".gitignore"))
+        render_template("Readme.txt.j2", context, os.path.join(output_dir, "Readme.txt"))
         
 
         print(f"Generated model skeleton in: {output_dir}")

@@ -14,7 +14,7 @@ COPY requirements.txt /app/requirements.txt
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-COPY {{ project_name }} /app/{{ project_name }}
+COPY ./ app
 
 EXPOSE 8000
 
